@@ -8,6 +8,7 @@ import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileContentChangeEvent
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import kotlinx.coroutines.Runnable
+import java.lang.Math.min
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -30,7 +31,10 @@ class UpdateHeader: BulkFileListener{
                 val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 val date = LocalDateTime.now();
 
-                var firstLine = FileDocumentManager.getInstance().getDocument(event.file)?.getText(TextRange(0, 5));
+                var textLen = FileDocumentManager.getInstance().getDocument(event.file)?.textLength ?: 0;
+                var firstLine = FileDocumentManager.getInstance().getDocument(event.file)?.getText(TextRange(0,
+                    kotlin.math.min(textLen, 5)
+                ));
 
                 if (firstLine.equals("/* **")) {
                     var header = "/*   Updated: " + date.format(formatter) + " by "
@@ -57,7 +61,7 @@ class UpdateHeader: BulkFileListener{
                     .plus("#+#    #+#             */\n")
                     .plus("/*   Updated: " + date.format(formatter) + " by ")
                     .plus(user.padEnd(17))
-                    .plus("###   ########.fr       */\n")
+                    .plus("###   ########.jp       */\n")
                     .plus("/*                                                                            */\n")
                     .plus("/* ************************************************************************** */\n")
                     .plus("\n");
