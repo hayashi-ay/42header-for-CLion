@@ -3,6 +3,7 @@ package com.hayapenguin.ft_header
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.fileEditor.FileDocumentManager
 import com.intellij.openapi.project.ProjectManager
+import com.intellij.openapi.util.TextRange
 import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileContentChangeEvent
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
@@ -21,13 +22,24 @@ class UpdateHeader: BulkFileListener{
             if (event is VFileContentChangeEvent) {
 
                 var filename = event.file.name;
-                var user = "ahayashi;";
+                var user = "ahayashi";
                 var email = "ahayashi@student.42tokyo.jp";
 
                 val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 val date = LocalDateTime.now();
 
-                var header:String = "/* ************************************************************************** */\n"
+                var firstLine = FileDocumentManager.getInstance().getDocument(event.file)?.getText(TextRange(0, 5));
+
+                if (firstLine.equals("/* **")) {
+                    var header = "/*   Updated: " + date.format(formatter) + " by "
+                        .plus(user.padEnd(17))
+                        .plus("###   ########.fr       */\n");
+                    val runnable = Runnable {
+                        FileDocumentManager.getInstance().getDocument(event.file)?.replaceString(648, 648 + header.length, header);
+                    }
+                    WriteCommandAction.runWriteCommandAction(ProjectManager.getInstance().defaultProject, runnable);
+                } else {
+                    var header:String = "/* ************************************************************************** */\n"
                     .plus("/*                                                                            */\n")
                     .plus("/*                                                        :::      ::::::::   */\n")
                     .plus("/*   ")
@@ -47,10 +59,11 @@ class UpdateHeader: BulkFileListener{
                     .plus("/*                                                                            */\n")
                     .plus("/* ************************************************************************** */\n");
 
-                val runnable = Runnable {
-                    FileDocumentManager.getInstance().getDocument(event.file)?.insertString(0, header);
+                    val runnable = Runnable {
+                        FileDocumentManager.getInstance().getDocument(event.file)?.insertString(0, header);
+                    }
+                    WriteCommandAction.runWriteCommandAction(ProjectManager.getInstance().defaultProject, runnable);
                 }
-                WriteCommandAction.runWriteCommandAction(ProjectManager.getInstance().defaultProject, runnable);
             }
         }
     }
