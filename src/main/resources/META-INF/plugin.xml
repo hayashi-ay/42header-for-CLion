@@ -15,10 +15,8 @@
         <!-- Add your extensions here -->
     </extensions>
 
-    <actions>
-       <group id="MyIdeaDemo.HelloAction" text="MyIdeaDemo" description="about">
-           <add-to-group group-id="MainMenu" anchor="last" />
-           <action class="com.hayapenguin.ft_header.HelloAction" id="MyIdeaDemo.Actions.HelloAction" text="Say Hello" />
-       </group>
-    </actions>
+    <applicationListeners>
+      <listener class="com.hayapenguin.ft_header.UpdateHeader" topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
+    </applicationListeners>
+
 </idea-plugin>
