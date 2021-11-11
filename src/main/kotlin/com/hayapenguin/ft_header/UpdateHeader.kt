@@ -24,8 +24,8 @@ class UpdateHeader: BulkFileListener{
                 var extension = filename.substring(filename.lastIndexOf("."));
                 if (extension != "c" || extension != "h")
                     continue;
-                var user = System.getenv("42_NAME") ?: "nop";
-                var email = System.getenv("42_EMAIL") ?: "nop@42.jp";
+                var user = System.getenv("FT_NAME") ?: "nop";
+                var email = System.getenv("FT_EMAIL") ?: "nop@42.jp";
 
                 val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 val date = LocalDateTime.now();
