@@ -22,8 +22,8 @@ class UpdateHeader: BulkFileListener{
             if (event is VFileContentChangeEvent) {
 
                 var filename = event.file.name;
-                var user = "ahayashi";
-                var email = "ahayashi@student.42tokyo.jp";
+                var user = System.getenv("42_NAME") ?: "nop";
+                var email = System.getenv("42_EMAIL") ?: "nop@42.jp";
 
                 val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 val date = LocalDateTime.now();
@@ -47,7 +47,7 @@ class UpdateHeader: BulkFileListener{
                     .plus(":+:      :+:    :+:   */\n")
                     .plus("/*                                                    +:+ +:+         +:+     */\n")
                     .plus("/*   By: ")
-                    .plus(("$user $email").padEnd(43))
+                    .plus(("$user <$email>").padEnd(43))
                     .plus("+#+  +:+       +#+        */\n")
                     .plus("/*                                                +#+#+#+#+#+   +#+           */\n")
                     .plus("/*   Created: " + date.format(formatter) + " by ")
@@ -57,7 +57,8 @@ class UpdateHeader: BulkFileListener{
                     .plus(user.padEnd(17))
                     .plus("###   ########.fr       */\n")
                     .plus("/*                                                                            */\n")
-                    .plus("/* ************************************************************************** */\n");
+                    .plus("/* ************************************************************************** */\n")
+                    .plus("\n");
 
                     val runnable = Runnable {
                         FileDocumentManager.getInstance().getDocument(event.file)?.insertString(0, header);
