@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>com.hayapenguin.42-header</id>
     <name>Awesome 42 Header</name>
-    <vendor email="ahayashi@student.42tokyo.jp" url="https://hayapenguin.com">YourCompany</vendor>
+    <vendor email="ahayashi@student.42tokyo.jp" url="https://hayapenguin.com">Hayapenguin</vendor>
 
     <description><![CDATA[
     Awesome 42 header plugin which will add 42 header
