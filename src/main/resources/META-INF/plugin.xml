@@ -1,11 +1,10 @@
 <idea-plugin>
     <id>com.hayapenguin.42-header</id>
-    <name>Plugin display name here</name>
-    <vendor email="support@yourcompany.com" url="http://www.yourcompany.com">YourCompany</vendor>
+    <name>Awesome 42 Header</name>
+    <vendor email="ahayashi@student.42tokyo.jp" url="https://hayapenguin.com">YourCompany</vendor>
 
     <description><![CDATA[
-    Enter short description for your plugin here.<br>
-    <em>most HTML tags may be used</em>
+    Awesome 42 header plugin which will add 42 header
     ]]></description>
 
     <!-- please see https://plugins.jetbrains.com/docs/intellij/plugin-compatibility.html
