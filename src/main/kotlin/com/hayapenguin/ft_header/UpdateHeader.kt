@@ -8,7 +8,6 @@ import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileContentChangeEvent
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import kotlinx.coroutines.Runnable
-import java.lang.Math.min
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -39,7 +38,7 @@ class UpdateHeader: BulkFileListener{
                 if (firstLine.equals("/* **")) {
                     var header = "/*   Updated: " + date.format(formatter) + " by "
                         .plus(user.padEnd(17))
-                        .plus("###   ########.fr       */\n");
+                        .plus("###   ########.jp       */\n");
                     val runnable = Runnable {
                         FileDocumentManager.getInstance().getDocument(event.file)?.replaceString(648, 648 + header.length, header);
                     }
