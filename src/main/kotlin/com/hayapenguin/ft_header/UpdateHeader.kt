@@ -21,7 +21,10 @@ class UpdateHeader: BulkFileListener{
         for (event in events) {
             if (event is VFileContentChangeEvent) {
                 var filename = event.file.name;
-                var extension = filename.substring(filename.lastIndexOf("."));
+                var lastIndex = filename.lastIndexOf(".");
+                if (lastIndex == -1)
+                    continue;
+                var extension = filename.substring(lastIndex);
                 if (extension != ".c" && extension != ".h")
                     continue;
                 var user = System.getenv("FT_NAME") ?: "nop";
