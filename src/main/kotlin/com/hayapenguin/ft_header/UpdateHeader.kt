@@ -67,6 +67,7 @@ class UpdateHeader: BulkFileListener{
                     .plus("\n");
 
                     val runnable = Runnable {
+                        event.file.refresh(false, false);
                         FileDocumentManager.getInstance().getDocument(event.file)?.insertString(0, header);
                     }
                     WriteCommandAction.runWriteCommandAction(ProjectManager.getInstance().defaultProject, runnable);
