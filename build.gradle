@@ -4,7 +4,7 @@ plugins {
 }
 
 group 'com.hayapenguin'
-version '1.0.1'
+version '1.0.2'
 
 repositories {
     mavenCentral()
@@ -20,6 +20,7 @@ intellij {
 }
 patchPluginXml {
     changeNotes = """
-      Add change notes here.<br>
-      <em>most HTML tags may be used</em>"""
+      - Fix errro caused by modifying a file with no extention.<br>
+      - Fix cache confilict.<br>
+      """
 }
