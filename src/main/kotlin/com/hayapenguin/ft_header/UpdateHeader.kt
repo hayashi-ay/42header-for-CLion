@@ -29,7 +29,8 @@ class UpdateHeader: BulkFileListener{
 
                 val formatter = DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss");
                 val date = LocalDateTime.now();
-
+                if (!event.file.isInLocalFileSystem)
+                    continue;
                 var existHeader = false;
                 var textLen = FileDocumentManager.getInstance().getDocument(event.file)?.textLength ?: 0;
                 if (textLen > 5) {
