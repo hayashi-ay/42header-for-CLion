@@ -20,12 +20,8 @@ class UpdateHeader: BulkFileListener{
         super.after(events)
         for (event in events) {
             if (event is VFileContentChangeEvent) {
-                var filename = event.file.name;
-                var lastIndex = filename.lastIndexOf(".");
-                if (lastIndex == -1)
-                    continue;
-                var extension = filename.substring(lastIndex);
-                if (extension != ".c" && extension != ".h")
+                var file = event.file;
+                if (file.extension != ".c" && file.extension != ".h")
                     continue;
                 var user = System.getenv("FT_NAME") ?: "nop";
                 var email = System.getenv("FT_EMAIL") ?: "nop@42.jp";
@@ -53,7 +49,7 @@ class UpdateHeader: BulkFileListener{
                     .plus("/*                                                                            */\n")
                     .plus("/*                                                        :::      ::::::::   */\n")
                     .plus("/*   ")
-                    .plus(filename.padEnd(51))
+                    .plus(file.name.padEnd(51))
                     .plus(":+:      :+:    :+:   */\n")
                     .plus("/*                                                    +:+ +:+         +:+     */\n")
                     .plus("/*   By: ")
