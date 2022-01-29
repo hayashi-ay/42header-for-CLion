@@ -8,6 +8,7 @@ import com.intellij.openapi.vfs.newvfs.BulkFileListener
 import com.intellij.openapi.vfs.newvfs.events.VFileContentChangeEvent
 import com.intellij.openapi.vfs.newvfs.events.VFileEvent
 import kotlinx.coroutines.Runnable
+import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 
@@ -36,7 +37,19 @@ class UpdateHeader: BulkFileListener{
                     var firstLine = FileDocumentManager.getInstance().getDocument(event.file)?.getText(TextRange(0, 5));
                     existHeader = firstLine.equals("/* **");
                 }
-                if (existHeader) {
+                var needsUpdate = false;
+                if (existHeader)
+                {
+                    var dateStr = FileDocumentManager.getInstance().getDocument(event.file)?.getText(TextRange(662, 672));
+                    println(dateStr)
+                    var f = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+                    var updateTime = LocalDate.parse(dateStr, f).atStartOfDay();
+                    if (updateTime.isBefore(LocalDateTime.now().minusDays(1)))
+                    {
+                        needsUpdate = true
+                    }
+                }
+                if (existHeader && needsUpdate) {
                     var header = "/*   Updated: " + date.format(formatter) + " by "
                         .plus(user.padEnd(17))
                         .plus("###   ########.jp       */\n");
@@ -44,7 +57,7 @@ class UpdateHeader: BulkFileListener{
                         FileDocumentManager.getInstance().getDocument(event.file)?.replaceString(648, 648 + header.length, header);
                     }
                     WriteCommandAction.runWriteCommandAction(ProjectManager.getInstance().defaultProject, runnable);
-                } else {
+                } else if (!existHeader) {
                     var header:String = "/* ************************************************************************** */\n"
                     .plus("/*                                                                            */\n")
                     .plus("/*                                                        :::      ::::::::   */\n")
